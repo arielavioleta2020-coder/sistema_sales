@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA_SALES S.A. | Sistema de Información Integral</title>
+    <meta name="description" content="Sistema de Información para la Gestión Integral de Ventas, Facturación, Inventarios y Procesos de Abastecimiento en la Empresa SISTEMA_SALES S.A., Quito - Ecuador.">
+    <!-- Fuentes Google: Outfit e Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app" class="app-layout">
+        <!-- BARRA LATERAL (SIDEBAR) SEGÚN FIGURAS 5 Y 6 DE LA TESIS -->
+        <aside class="sidebar" id="mainSidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo">
+                    <span class="logo-icon"><i class="fa-solid fa-shapes"></i></span>
+                    <div class="brand-text">
+                        <span class="brand-title">SISTEMA_SALES</span>
+                        <span class="brand-subtitle">S. A. • Quito, EC</span>
+                    </div>
+                </div>
+                <button class="btn-sidebar-toggle" id="btnToggleSidebar" aria-label="Colapsar menú">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">PRINCIPAL</div>
+                <a href="#dashboard" class="nav-item active" data-view="dashboard">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <div class="nav-section-title">COMERCIAL</div>
+                <a href="#facturacion" class="nav-item" data-view="facturacion">
+                    <i class="fa-solid fa-cash-register"></i>
+                    <span>Nueva Venta (Facturar)</span>
+                </a>
+                <a href="#facturas" class="nav-item" data-view="facturas">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    <span>Facturas Emitidas</span>
+                </a>
+                <a href="#clientes" class="nav-item" data-view="clientes">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Clientes</span>
+                </a>
+                <a href="#vendedores" class="nav-item" data-view="vendedores">
+                    <i class="fa-solid fa-user-tie"></i>
+                    <span>Vendedores</span>
+                </a>
+
+                <div class="nav-section-title">LOGÍSTICA & INVENTARIO</div>
+                <a href="#productos" class="nav-item" data-view="productos">
+                    <i class="fa-solid fa-box-archive"></i>
+                    <span>Productos</span>
+                </a>
+                <a href="#inventario" class="nav-item" data-view="inventario">
+                    <i class="fa-solid fa-warehouse"></i>
+                    <span>Control de Inventario</span>
+                    <span class="badge badge-warning" id="sidebarStockBadge">5</span>
+                </a>
+                <a href="#ordenes" class="nav-item" data-view="ordenes">
+                    <i class="fa-solid fa-truck-ramp-box"></i>
+                    <span>Órdenes de Compra</span>
+                </a>
+                <a href="#proveedores" class="nav-item" data-view="proveedores">
+                    <i class="fa-solid fa-building"></i>
+                    <span>Proveedores</span>
+                </a>
+                <a href="#abastecimiento" class="nav-item" data-view="abastecimiento">
+                    <i class="fa-solid fa-handshake"></i>
+                    <span>Abastecimiento</span>
+                </a>
+
+                <div class="nav-section-title">GESTIÓN & ANALÍTICA</div>
+                <a href="#distritos" class="nav-item" data-view="distritos">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <span>Distritos de Quito</span>
+                </a>
+                <a href="#reportes" class="nav-item" data-view="reportes">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>Reportes Gerenciales</span>
+                </a>
+                <a href="#multiplataforma" class="nav-item" data-view="multiplataforma">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                    <span>Simulador Multiplataforma</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-chip">
+                    <div class="user-avatar" id="sidebarAvatar">KF</div>
+                    <div class="user-meta">
+                        <span class="user-name" id="userNameLabel">Karina Figueroa</span>
+                        <span class="user-role-badge" id="userRoleBadge">Administrador</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTENEDOR PRINCIPAL -->
+        <main class="main-wrapper">
+            <!-- BARRA SUPERIOR (HEADER) -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="btn-icon mobile-menu-btn" id="mobileMenuBtn">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="page-title-box">
+                        <h1 class="page-title" id="pageTitleHeading">Dashboard General</h1>
+                        <span class="page-breadcrumb" id="pageBreadcrumb">SISTEMA_SALES S.A. / Quito - Ecuador</span>
+                    </div>
+                </div>
+
+                <div class="topbar-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="globalSearchInput" placeholder="Buscar clientes, productos, facturas...">
+                </div>
+
+                <div class="topbar-right">
+                    <!-- Selector de Rol para Evaluación de Tesis (RF01, RF02) -->
+                    <div class="role-selector-wrap">
+                        <label for="currentRoleSelect"><i class="fa-solid fa-id-badge"></i> Rol:</label>
+                        <select id="currentRoleSelect" class="form-select form-select-sm">
+                            <option value="Administrador">Administrador</option>
+                            <option value="Vendedor">Vendedor</option>
+                            <option value="Personal de compras">Personal de Compras</option>
+                            <option value="Personal administrativo">Personal Administrativo</option>
+                        </select>
+                    </div>
+
+                    <!-- Indicador de Conexión Backend -->
+                    <div class="status-indicator" id="connectionStatus" title="Estado de conexión con el Backend Django y MySQL">
+                        <span class="status-dot"></span>
+                        <span class="status-text" id="statusText">Modo Local / Django</span>
+                    </div>
+
+                    <!-- Notificaciones de Stock Bajo (RF09) -->
+                    <button class="btn-icon" id="btnStockAlerts" title="Alertas de Stock Crítico">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="notification-badge" id="alertCountBadge">5</span>
+                    </button>
+
+                    <!-- Acceso a Base de Datos MySQL -->
+                    <button class="btn btn-outline-primary btn-sm" id="btnVerMySQLDoc" title="Ver script MySQL Workbench">
+                        <i class="fa-solid fa-database"></i> MySQL Workbench
+                    </button>
+                </div>
+            </header>
+
+            <!-- CONTENIDO DE VISTAS DINÁMICAS -->
+            <div class="content-body" id="contentArea">
+
+                <!-- 1. VISTA DASHBOARD (FIGURA 5 Y 6) -->
+                <section id="view-dashboard" class="content-view active">
+                    <!-- BANNER INFORMATIVO -->
+                    <div class="welcome-banner">
+                        <div class="banner-text">
+                            <h2>Panel de Control Integral - SISTEMA_SALES S.A.</h2>
+                            <p>Gestión centralizada de Ventas, Facturación con IVA (15%), Inventarios de Seguridad y Abastecimiento para Quito, Ecuador.</p>
+                        </div>
+                        <div class="banner-actions">
+                            <button class="btn btn-light" onclick="navigateTo('facturacion')">
+                                <i class="fa-solid fa-plus"></i> Nueva Factura
+                            </button>
+                            <button class="btn btn-primary-glass" onclick="navigateTo('inventario')">
+                                <i class="fa-solid fa-boxes-stacked"></i> Revisar Stock
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- TARJETAS KPIS IDÉNTICAS A LA FIGURA 6 -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card kpi-blue">
+                            <div class="kpi-body">
+                                <span class="kpi-label">Total Ventas</span>
+                                <h3 class="kpi-value" id="kpiTotalVentas">$15,480.00</h3>
+                                <span class="kpi-note"><i class="fa-solid fa-arrow-trend-up"></i> +14.8% este mes</span>
+                            </div>
+                            <div class="kpi-icon"><i class="fa-solid fa-wallet"></i></div>
+                        </div>
+
+                        <div class="kpi-card kpi-teal">
+                            <div class="kpi-body">
+                                <span class="kpi-label">Facturas Hoy</span>
+                                <h3 class="kpi-value" id="kpiFacturasHoy">32</h3>
+                                <span class="kpi-note"><i class="fa-solid fa-file-invoice"></i> Transacciones validadas</span>
+                            </div>
+                            <div class="kpi-icon"><i class="fa-solid fa-receipt"></i></div>
+                        </div>
+
+                        <div class="kpi-card kpi-orange">
+                            <div class="kpi-body">
+                                <span class="kpi-label">Productos Bajo Stock</span>
+                                <h3 class="kpi-value" id="kpiBajoStock">5</h3>
+                                <span class="kpi-note text-danger"><i class="fa-solid fa-triangle-exclamation"></i> Requiere abastecimiento</span>
+                            </div>
+                            <div class="kpi-icon"><i class="fa-solid fa-box-open"></i></div>
+                        </div>
+
+                        <div class="kpi-card kpi-purple">
+                            <div class="kpi-body">
+                                <span class="kpi-label">Órdenes de Compra</span>
+                                <h3 class="kpi-value" id="kpiOrdenesPendientes">2</h3>
+                                <span class="kpi-note"><i class="fa-solid fa-clock"></i> Pendientes de atención</span>
+                            </div>
+                            <div class="kpi-icon"><i class="fa-solid fa-truck-loading"></i></div>
+                        </div>
+                    </div>
+
+                    <!-- FILA DE GRÁFICOS Y TABLAS (FIGURA 6) -->
+                    <div class="dashboard-row">
+                        <!-- TABLA: RECENT VENTAS (FIGURA 6) -->
+                        <div class="card dashboard-card flex-2">
+                            <div class="card-header">
+                                <div class="card-title-group">
+                                    <h3 class="card-title">Recent Ventas</h3>
+                                    <span class="card-subtitle">Últimas transacciones comerciales registradas</span>
+                                </div>
+                                <div class="card-actions">
+                                    <button class="btn btn-sm btn-ghost" onclick="renderDashboardRecentSales()"><i class="fa-solid fa-rotate-right"></i></button>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="navigateTo('facturas')">Ver Todas</button>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table" id="tableRecentVentas">
+                                    <thead>
+                                        <tr>
+                                            <th>Factura</th>
+                                            <th>Cliente</th>
+                                            <th>Vendedor</th>
+                                            <th>Total (USD)</th>
+                                            <th>Estado</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyRecentVentas">
+                                        <!-- Dinámico -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- GRÁFICO DE RENDIMIENTO (PERFORMANCE VENTAS) -->
+                        <div class="card dashboard-card flex-1">
+                            <div class="card-header">
+                                <div class="card-title-group">
+                                    <h3 class="card-title">Performance Ventas</h3>
+                                    <span class="card-subtitle">Evolución mensual en miles de USD</span>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <svg class="performance-chart-svg" viewBox="0 0 400 200" id="performanceChartSvg">
+                                    <defs>
+                                        <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stop-color="#2563eb" stop-opacity="0.35"/>
+                                            <stop offset="100%" stop-color="#2563eb" stop-opacity="0.0"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <!-- Ejes y Líneas Guía -->
+                                    <line x1="30" y1="30" x2="380" y2="30" stroke="#e2e8f0" stroke-dasharray="4"/>
+                                    <line x1="30" y1="75" x2="380" y2="75" stroke="#e2e8f0" stroke-dasharray="4"/>
+                                    <line x1="30" y1="120" x2="380" y2="120" stroke="#e2e8f0" stroke-dasharray="4"/>
+                                    <line x1="30" y1="165" x2="380" y2="165" stroke="#e2e8f0"/>
+                                    <!-- Área sombreada -->
+                                    <polygon points="50,140 110,125 170,95 230,105 290,65 350,45 350,165 50,165" fill="url(#chartGradient)"/>
+                                    <!-- Línea de tendencia de ventas -->
+                                    <polyline fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" points="50,140 110,125 170,95 230,105 290,65 350,45"/>
+                                    <!-- Puntos -->
+                                    <circle cx="50" cy="140" r="4" fill="#2563eb"/>
+                                    <circle cx="110" cy="125" r="4" fill="#2563eb"/>
+                                    <circle cx="170" cy="95" r="4" fill="#2563eb"/>
+                                    <circle cx="230" cy="105" r="4" fill="#2563eb"/>
+                                    <circle cx="290" cy="65" r="4" fill="#2563eb"/>
+                                    <circle cx="350" cy="45" r="5" fill="#1d4ed8" stroke="#ffffff" stroke-width="2"/>
+                                    <!-- Etiquetas meses -->
+                                    <text x="45" y="185" class="chart-label">Ene</text>
+                                    <text x="105" y="185" class="chart-label">Feb</text>
+                                    <text x="165" y="185" class="chart-label">Mar</text>
+                                    <text x="225" y="185" class="chart-label">Abr</text>
+                                    <text x="285" y="185" class="chart-label">May</text>
+                                    <text x="345" y="185" class="chart-label">Jun</text>
+                                </svg>
+                                <div class="chart-stat-footer">
+                                    <div class="stat-item">
+                                        <span class="stat-number">$15,480</span>
+                                        <span class="stat-name">Pico Máximo</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-number">98.4%</span>
+                                        <span class="stat-name">Cumplimiento Meta</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. VISTA PRODUCTOS (FIGURA 7) -->
+                <section id="view-productos" class="content-view">
+                    <div class="section-header">
+                        <div>
+                            <h2>Gestión de Productos</h2>
+                            <p>Catálogo maestro de inventario, existencias, precios y especificaciones</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="abrirModalProducto()">
+                            <i class="fa-solid fa-plus"></i> Agregar Producto
+                        </button>
+                    </div>
+
+                    <!-- FILTROS Y BÚSQUEDA IDÉNTICOS A LA FIGURA 7 -->
+                    <div class="filters-bar card">
+                        <div class="filter-item">
+                            <label><i class="fa-solid fa-layer-group"></i> Línea de Producto:</label>
+                            <select id="filtroLineaProducto" class="form-select" onchange="filtrarProductos()">
+                                <option value="">Todas las Líneas</option>
+                                <option value="Laptops y Portátiles">Laptops y Portátiles</option>
+                                <option value="Monitores y Pantallas">Monitores y Pantallas</option>
+                                <option value="Impresión y Digitalización">Impresión y Digitalización</option>
+                                <option value="Periféricos y Accesorios">Periféricos y Accesorios</option>
+                                <option value="Almacenamiento">Almacenamiento</option>
+                                <option value="Redes y Conectividad">Redes y Conectividad</option>
+                                <option value="Componentes y Partes">Componentes y Partes</option>
+                                <option value="Energía y Protección">Energía y Protección</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-item">
+                            <label><i class="fa-solid fa-tag"></i> Marca:</label>
+                            <select id="filtroMarcaProducto" class="form-select" onchange="filtrarProductos()">
+                                <option value="">Todas las Marcas</option>
+                                <option value="Dell">Dell</option>
+                                <option value="Lenovo">Lenovo</option>
+                                <option value="HP">HP</option>
+                                <option value="Epson">Epson</option>
+                                <option value="Logitech">Logitech</option>
+                                <option value="Kingston">Kingston</option>
+                                <option value="TP-Link">TP-Link</option>
+                                <option value="Corsair">Corsair</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-item search-box">
+                            <label><i class="fa-solid fa-magnifying-glass"></i> Buscar:</label>
+                            <input type="text" id="buscarProductoInput" class="form-control" placeholder="Descripción, marca, código..." oninput="filtrarProductos()">
+                        </div>
+                    </div>
+
+                    <!-- TABLA DE PRODUCTOS (FIGURA 7) -->
+                    <div class="card table-card">
+                        <div class="table-responsive">
+                            <table class="table" id="tablaProductos">
+                                <thead>
+                                    <tr>
+                                        <th>Cód</th>
+                                        <th>Descripción</th>
+                                        <th>Marca</th>
+                                        <th>Línea</th>
+                                        <th>Stock Actual</th>
+                                        <th>Stock Mínimo</th>
+                                        <th>Precio</th>
+                                        <th>Origen</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyProductos">
+                                    <!-- Se llena con JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. VISTA INVENTARIO Y STOCK MÍNIMO (RF08, RF09) -->
+                <section id="view-inventario" class="content-view">
+                    <div class="section-header">
+                        <div>
+                            <h2>Control de Inventarios y Alerta de Stock Mínimo</h2>
+                            <p>Monitoreo preventivo para evitar desabastecimiento y garantizar continuidad operativa</p>
+                        </div>
+                        <button class="btn btn-warning" onclick="navigateTo('ordenes')">
+                            <i class="fa-solid fa-cart-shopping"></i> Generar Orden de Abastecimiento
+                        </button>
+                    </div>
+
+                    <div class="alert-box-stock">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <div>
+                            <strong>Regla de Negocio RN11 y Requerimiento RF09:</strong>
+                            <p>Se marcan en color rojo o ámbar todos los artículos cuyas existencias son iguales o inferiores al stock mínimo de seguridad parametrizado.</p>
+                        </div>
+                    </div>
+
+                    <div class="card table-card">
+                        <div class="table-responsive">
+                            <table class="table" id="tablaInventario">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Producto</th>
+                                        <th>Marca</th>
+                                        <th>Stock Físico</th>
+                                        <th>Stock Mínimo</th>
+                                        <th>Déficit</th>
+                                        <th>Estado Alerta</th>
+                                        <th>Acciones de Reabastecimiento</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyInventario">
+                                    <!-- Dinámico -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. VISTA FACTURACIÓN / NUEVA VENTA (RF10, RF11, RN04-RN07, RN13) -->
+                <section id="view-facturacion" class="content-view">
+                    <div class="section-header">
+                        <div>
+                            <h2>Módulo de Facturación y Ventas</h2>
+                            <p>Registro de operaciones comerciales con liquidación automática de IVA (15%) y validación de stock en tiempo real</p>
+                        </div>
+                    </div>
+
+                    <div class="billing-container">
+                        <!-- FORMULARIO DE CABECERA DE FACTURA -->
+                        <div class="card billing-form-card">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa-solid fa-file-invoice"></i> Datos de la Factura</h3>
+                                <span class="badge badge-primary" id="lblNumeroFacturaAuto">FAC-001-001-0000006</span>
+                            </div>
+                            <div class="billing-grid">
+                                <div class="form-group">
+                                    <label>Cliente (RN04) *</label>
+                                    <select id="facturaClienteSelect" class="form-select" onchange="alSeleccionarClienteFactura()">
+                                        <option value="">-- Seleccione Cliente --</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>RUC / Cédula</label>
+                                    <input type="text" id="facturaClienteRuc" class="form-control" readonly placeholder="RUC autocompletado">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Dirección y Distrito</label>
+                                    <input type="text" id="facturaClienteDir" class="form-control" readonly placeholder="Dirección del cliente">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Vendedor Asignado (RN05) *</label>
+                                    <select id="facturaVendedorSelect" class="form-select">
+                                        <option value="">-- Seleccione Vendedor --</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Fecha de Emisión</label>
+                                    <input type="date" id="facturaFecha" class="form-control">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Porcentaje de IVA (Ecuador)</label>
+                                    <div class="input-group">
+                                        <input type="number" id="facturaIvaPorc" class="form-control" value="15.00" step="0.01">
+                                        <span class="input-addon">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AGREGAR PRODUCTOS AL DETALLE (RF11, RN06, RN07, RN11, RN13) -->
+                        <div class="card billing-items-card">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa-solid fa-cart-plus"></i> Detalle de Productos a Facturar</h3>
+                            </div>
+                            
+                            <div class="add-item-bar">
+                                <div class="item-select-wrap">
+                                    <label>Seleccionar Producto:</label>
+                                    <select id="facturaItemProductoSelect" class="form-select" onchange="alSeleccionarProductoFactura()">
+                                        <option value="">-- Buscar producto --</option>
+                                    </select>
+                                </div>
+                                <div class="item-stock-wrap">
+                                    <label>Stock Disp:</label>
+                                    <input type="text" id="facturaItemStockDisp" class="form-control" readonly value="-">
+                                </div>
+                                <div class="item-qty-wrap">
+                                    <label>Cantidad:</label>
+                                    <input type="number" id="facturaItemCantidad" class="form-control" min="1" value="1">
+                                </div>
+                                <div class="item-price-wrap">
+                                    <label>Precio Unit (USD):</label>
+                                    <input type="number" id="facturaItemPrecio" class="form-control" step="0.01" value="0.00">
+                                </div>
+                                <div class="item-btn-wrap">
+                                    <label>&nbsp;</label>
+                                    <button class="btn btn-primary btn-block" type="button" onclick="agregarItemFactura()">
+                                        <i class="fa-solid fa-plus"></i> Agregar Línea
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- TABLA DEL CARRITO DE FACTURACIÓN -->
+                            <div class="table-responsive">
+                                <table class="table" id="tablaDetalleFactura">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Producto</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio Unit.</th>
+                                            <th>Subtotal</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyDetalleFactura">
+                                        <tr class="empty-row">
+                                            <td colspan="6" class="text-center">No hay productos agregados a la factura aún.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- LIQUIDACIÓN TOTAL Y BOTONES DE ACCIÓN -->
+                            <div class="billing-summary-footer">
+                                <div class="summary-details">
+                                    <div class="summary-line">
+                                        <span>Subtotal Neto:</span>
+                                        <strong id="lblSubtotalFactura">$0.00</strong>
+                                    </div>
+                                    <div class="summary-line">
+                                        <span>IVA (15%):</span>
+                                        <strong id="lblIvaFactura">$0.00</strong>
+                                    </div>
+                                    <div class="summary-line total-line">
+                                        <span>TOTAL A PAGAR:</span>
+                                        <strong id="lblTotalFactura">$0.00</strong>
+                                    </div>
+                                </div>
+
+                                <div class="summary-actions">
+                                    <button class="btn btn-secondary" onclick="limpiarFactura()">
+                                        <i class="fa-solid fa-trash"></i> Limpiar
+                                    </button>
+                                    <button class="btn btn-success btn-lg" onclick="procesarEmisionFactura()">
+                                        <i class="fa-solid fa-check"></i> Emitir Factura y Actualizar Stock
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. VISTA FACTURAS EMITIDAS (RF10, RN14) -->
+                <section id="view-facturas" class="content-view">
+                    <div class="section-header">
+                        <div>
+                            <h2>Histórico de Facturas Emitidas</h2>
+                            <p>Consulta, reimpresión y anulación controlada con reposición de inventario</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="navigateTo('facturacion')">
+                            <i class="fa-solid fa-plus"></i> Nueva Venta
+                        </button>
+                    </div>
+
+                    <div class="card table-card">
+                        <div class="table-responsive">
+                            <table class="table" id="tablaFacturasListado">
+                                <thead>
+                                    <tr>
+                                        <th>N° Factura</th>
+                                        <th>Fecha Emisión</th>
+                                        <th>Cliente</th>
+                                        <th>RUC</th>
+                                        <th>Vendedor</th>
+                                        <th>Subtotal</th>
+                                        <th>IVA</th>
+                                        <th>Total (USD)</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyFacturasListado">
+                                    <!-- Dinámico -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6. VISTA CLIENTES (RF04, RN01) -->
+                <section id="view-clientes" class="content-view">
+                    <div class="section-header">
+                        <div>
+                            <h2>Gestión de Clientes</h2>
+                            <p>Administración de clientes mayoristas, minoristas y corporativos con RUC y distrito</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="abrirModalCliente()">
+                            <i class="fa-solid fa-user-plus"></i> Registrar Cliente
+                        </button>
+                    </div>
+
+                    <div class="card table-card">
+                        <div class="table-responsive">
+                            <table class="table" id="tablaClientes">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre o Razón Social</th>
+                                        <th>RUC</th>
+                                        <th>Dirección</th>
+                                        <th>Teléfono</th>
+                                        <th>Distrito</th>
+                                        <th>Tipo</th>
+                                        <th>Condición</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyClientes">
+                                    <!-- Dinámico -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 7. VISTA PROVEEDORES (RF05, RN02) -->
+                <section id="view-proveedores" class="content-view">
+                    <div class="section-header">
+                        <div>
+                            <h2>Gestión de Proveedores</h2>
+                            <p>Empresas aliadas para el suministro y abastecimiento de mercadería</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="abrirModalProveedor()">
+                            <i class="fa-solid fa-plus"></i> Registrar Proveedor
+                        </button>
+                    </div>
+
+                    <div class="card table-card">
+                        <div class="table-responsive">
+                            <table class="table" id="tablaProveedores">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Razón Social</th>
+                                        <th>Representante Legal</th>
+                                        <th>Dirección</th>
+                                        <th>Teléfono</th>
+                                        <th>Distrito</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyProveedores">
+                                    <!-- Dinámico -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 8. VISTA VENDEDORES (RF06, RN03) -->
+                <section id="view-vendedores" class="content-view">
+                    <div class="section-header">
+                        <div>
+                            <h2>Gestión de Vendedores</h2>
+                            <p>Fuerza comercial de SISTEMA_SALES S.A., contratos, sueldos y asignación geográfica</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="abrirModalVendedor()">
+                            <i class="fa-solid fa-user-plus"></i> Registrar Vendedor
+                        </button>
+                    </div>
+
+                    <div class="card table-card">
+                        <div class="table-responsive">
+                            <table class="table" id="tablaVendedores">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombres y Apellidos</th>
+                                        <th>Tipo Vendedor</th>
+                                        <th>Sueldo Base</th>
+                                        <th>Fecha Contratación</th>
+                                        <th>Distrito</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyVendedores">
+                                    <!-- Dinámico -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 9. VISTA ÓRDENES DE COMPRA (RF12, RF13, RN08-RN10, RN12) -->
+                <section id="view-ordenes" class="content-view">
+                    <div class="section-header">
+                        <div>
+                            <h2>Órdenes de Compra y Abastecimiento</h2>
+                            <p>Requerimientos a proveedores y recepción de mercadería con actualización de inventario</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="abrirModalNuevaOrden()">
+                            <i class="fa-solid fa-file-circle-plus"></i> Nueva Orden de Compra
+                        </button>
+                    </div>
+
+                    <div class="card table-card">
+                        <div class="table-responsive">
+                            <table class="table" id="tablaOrdenesCompra">
+                                <thead>
+                                    <tr>
+                                        <th>N° Orden</th>
+                                        <th>Fecha Registro</th>
+                                        <th>Proveedor</th>
+                                        <th>Productos Solicitados</th>
+                                        <th>Fecha Atención</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyOrdenesCompra">
+                                    <!-- Dinámico -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 10. VISTA ABASTECIMIENTO (RF14) -->
+                <section id="view-abastecimiento" class="content-view">
+                    <div class="section-header">
+                        <div>
+                            <h2>Matriz de Abastecimiento (Proveedor - Producto)</h2>
+                            <p>Precios de compra de proveedores y análisis de margen comercial</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="abrirModalAbastecimiento()">
+                            <i class="fa-solid fa-handshake-angle"></i> Asociar Producto a Proveedor
+                        </button>
+                    </div>
+
+                    <div class="card table-card">
+                        <div class="table-responsive">
+                            <table class="table" id="tablaAbastecimiento">
+                                <thead>
+                                    <tr>
+                                        <th>Proveedor</th>
+                                        <th>Producto</th>
+                                        <th>Costo de Compra (USD)</th>
+                                        <th>Precio Venta Público</th>
+                                        <th>Margen de Ganancia</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyAbastecimiento">
+                                    <!-- Dinámico -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 11. VISTA DISTRITOS (RF03) -->
+                <section id="view-distritos" class="content-view">
+                    <div class="section-header">
+                        <div>
+                            <h2>Catálogo Territorial de Distritos (Quito)</h2>
+                            <p>Centralización de parroquias y distritos metropolitanos de Quito para clientes, proveedores y vendedores</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="abrirModalDistrito()">
+                            <i class="fa-solid fa-plus"></i> Nuevo Distrito
+                        </button>
+                    </div>
+
+                    <div class="card table-card">
+                        <div class="table-responsive">
+                            <table class="table" id="tablaDistritos">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Descripción del Distrito / Parroquia</th>
+                                        <th>Total Clientes</th>
+                                        <th>Total Proveedores</th>
+                                        <th>Total Vendedores</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyDistritos">
+                                    <!-- Dinámico -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 12. VISTA REPORTES (RF16) -->
+                <section id="view-reportes" class="content-view">
+                    <div class="section-header">
+                        <div>
+                            <h2>Reportes Gerenciales y Trazabilidad (RF16, RF17)</h2>
+                            <p>Información estratégica para la toma de decisiones empresariales</p>
+                        </div>
+                        <button class="btn btn-outline-primary" onclick="imprimirReporteActual()">
+                            <i class="fa-solid fa-print"></i> Imprimir Reporte
+                        </button>
+                    </div>
+
+                    <div class="reports-grid">
+                        <div class="card report-box">
+                            <div class="card-header">
+                                <h3 class="card-title"><i class="fa-solid fa-trophy"></i> Ranking de Ventas por Vendedor</h3>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table" id="tablaReporteVendedores">
+                                    <thead>
+                                        <tr>
+                                            <th>Vendedor</th>
+                                            <th>Tipo</th>
+                                            <th>Facturas</th>
+                                            <th>Total Recaudado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyReporteVendedores">
+                                        <!-- Dinámico -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card report-box">
+                            <div class="card-header">
+                                <h3 class="card-title text-danger"><i class="fa-solid fa-bell"></i> Resumen de Reposición Urgente</h3>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table" id="tablaReporteStockCritico">
+                                    <thead>
+                                        <tr>
+                                            <th>Producto</th>
+                                            <th>Stock Actual</th>
+                                            <th>Stock Mín.</th>
+                                            <th>Déficit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyReporteStockCritico">
+                                        <!-- Dinámico -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 13. VISTA SIMULADOR MULTIPLATAFORMA (FLUTTER ESCRITORIO + EXPO MÓVIL) -->
+                <!-- Conforme a los Capítulos 8 y 9 y Figuras 6 y 8 del documento de titulación -->
+                <section id="view-multiplataforma" class="content-view">
+                    <div class="section-header">
+                        <div>
+                            <h2>Demostración de Arquitectura Multiplataforma</h2>
+                            <p>Visualice en paralelo la aplicación Flutter de Escritorio para Windows y la aplicación Móvil Expo / React Native</p>
+                        </div>
+                    </div>
+
+                    <div class="platforms-simulator-grid">
+                        <!-- SIMULADOR ESCRITORIO FLUTTER (FIGURA 6) -->
+                        <div class="desktop-mockup-frame">
+                            <div class="desktop-window-bar">
+                                <div class="window-controls">
+                                    <span class="ctrl close"></span>
+                                    <span class="ctrl min"></span>
+                                    <span class="ctrl max"></span>
+                                </div>
+                                <span class="window-title">Flutter Desktop - SISTEMA_SALES S.A. (Windows)</span>
+                            </div>
+                            <div class="desktop-window-content">
+                                <div class="flutter-header">
+                                    <i class="fa-solid fa-shapes"></i> SISTEMA_SALES S.A.
+                                    <span class="badge badge-light">Flutter Win32</span>
+                                </div>
+                                <div class="flutter-inner-body">
+                                    <div class="flutter-kpis-mini">
+                                        <div class="f-kpi blue">Total: $15,480</div>
+                                        <div class="f-kpi teal">Facturas: 32</div>
+                                        <div class="f-kpi orange">Stock Bajo: 5</div>
+                                    </div>
+                                    <div class="flutter-mini-table">
+                                        <strong>Ventas de Hoy (Flutter Client):</strong>
+                                        <ul>
+                                            <li>FAC-001 - Corp. Favorita: $3,470.00</li>
+                                            <li>FAC-002 - Dist. Pichincha: $2,558.75</li>
+                                            <li>FAC-003 - El Cóndor: $553.15</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SIMULADOR MÓVIL EXPO REACT NATIVE (FIGURA 8) -->
+                        <div class="mobile-mockup-frame">
+                            <div class="phone-notch"></div>
+                            <div class="phone-screen">
+                                <div class="mobile-header">
+                                    <div class="phone-status-time">9:41</div>
+                                    <div class="phone-status-icons">
+                                        <i class="fa-solid fa-signal"></i>
+                                        <i class="fa-solid fa-wifi"></i>
+                                        <i class="fa-solid fa-battery-full"></i>
+                                    </div>
+                                </div>
+                                <div class="mobile-body">
+                                    <div class="mobile-brand">
+                                        <div class="mobile-logo-circle"><i class="fa-solid fa-shapes"></i></div>
+                                        <h4>SISTEMA_SALES S.A.</h4>
+                                        <span class="app-tech-pill">Expo • React Native</span>
+                                    </div>
+
+                                    <div class="mobile-quick-stats">
+                                        <div class="mq-card">
+                                            <span>Ventas</span>
+                                            <strong>$15,480</strong>
+                                        </div>
+                                        <div class="mq-card">
+                                            <span>Facturas</span>
+                                            <strong>32</strong>
+                                        </div>
+                                    </div>
+
+                                    <div class="mobile-menu-list">
+                                        <div class="m-item" onclick="navigateTo('facturacion')">
+                                            <i class="fa-solid fa-cash-register"></i>
+                                            <span>Nueva Venta</span>
+                                            <i class="fa-solid fa-chevron-right arrow"></i>
+                                        </div>
+                                        <div class="m-item" onclick="navigateTo('productos')">
+                                            <i class="fa-solid fa-boxes-stacked"></i>
+                                            <span>Consultar Stock</span>
+                                            <i class="fa-solid fa-chevron-right arrow"></i>
+                                        </div>
+                                        <div class="m-item" onclick="navigateTo('clientes')">
+                                            <i class="fa-solid fa-users"></i>
+                                            <span>Clientes</span>
+                                            <i class="fa-solid fa-chevron-right arrow"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- ============================================================= -->
+    <!-- MODALES DE CREACIÓN Y EDICIÓN -->
+    <!-- ============================================================= -->
+
+    <!-- MODAL PRODUCTO -->
+    <div class="modal-backdrop" id="modalProducto">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 id="modalProductoTitle"><i class="fa-solid fa-box"></i> Nuevo Producto</h3>
+                <button class="btn-close" onclick="cerrarModales()">&times;</button>
+            </div>
+            <form id="formProducto" onsubmit="guardarProducto(event)">
+                <input type="hidden" id="prodId">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Descripción del Producto *</label>
+                        <input type="text" id="prodDescripcion" class="form-control" required placeholder="Ej: Laptop Dell Latitude Core i7">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Marca *</label>
+                            <input type="text" id="prodMarca" class="form-control" required placeholder="Ej: Dell, HP, Epson">
+                        </div>
+                        <div class="form-group">
+                            <label>Línea de Producto *</label>
+                            <select id="prodLinea" class="form-select" required>
+                                <option value="Laptops y Portátiles">Laptops y Portátiles</option>
+                                <option value="Monitores y Pantallas">Monitores y Pantallas</option>
+                                <option value="Impresión y Digitalización">Impresión y Digitalización</option>
+                                <option value="Periféricos y Accesorios">Periféricos y Accesorios</option>
+                                <option value="Almacenamiento">Almacenamiento</option>
+                                <option value="Redes y Conectividad">Redes y Conectividad</option>
+                                <option value="Componentes y Partes">Componentes y Partes</option>
+                                <option value="Energía y Protección">Energía y Protección</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Precio de Venta ($) (RN13) *</label>
+                            <input type="number" id="prodPrecio" class="form-control" step="0.01" min="0.01" required placeholder="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label>Stock Actual (RN11) *</label>
+                            <input type="number" id="prodStockActual" class="form-control" min="0" required placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Stock Mínimo *</label>
+                            <input type="number" id="prodStockMinimo" class="form-control" min="0" value="5" required>
+                        </div>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" id="prodImportado"> Es producto importado
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="cerrarModales()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Producto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL CLIENTE -->
+    <div class="modal-backdrop" id="modalCliente">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 id="modalClienteTitle"><i class="fa-solid fa-user"></i> Registrar Cliente</h3>
+                <button class="btn-close" onclick="cerrarModales()">&times;</button>
+            </div>
+            <form id="formCliente" onsubmit="guardarCliente(event)">
+                <input type="hidden" id="cliId">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Nombre o Razón Social *</label>
+                        <input type="text" id="cliNombre" class="form-control" required placeholder="Ej: Corporación Favorita C.A.">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>RUC / Cédula (13 dígitos) *</label>
+                            <input type="text" id="cliRuc" class="form-control" required maxlength="13" placeholder="1790016919001">
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono *</label>
+                            <input type="text" id="cliTelefono" class="form-control" required placeholder="022998800 o 0998765432">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección *</label>
+                        <input type="text" id="cliDireccion" class="form-control" required placeholder="Av. Los Shyris y Naciones Unidas">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Distrito de Quito (RN01) *</label>
+                            <select id="cliDistrito" class="form-select" required>
+                                <!-- Dinámico -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo de Cliente *</label>
+                            <select id="cliTipo" class="form-select" required>
+                                <option value="Mayorista">Mayorista</option>
+                                <option value="Minorista">Minorista</option>
+                                <option value="Corporativo">Corporativo</option>
+                                <option value="Final">Consumidor Final</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Condición *</label>
+                            <select id="cliCondicion" class="form-select" required>
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                                <option value="Excelente">Excelente</option>
+                                <option value="Regular">Regular</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="cerrarModales()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cliente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL PROVEEDOR -->
+    <div class="modal-backdrop" id="modalProveedor">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 id="modalProveedorTitle"><i class="fa-solid fa-building"></i> Registrar Proveedor</h3>
+                <button class="btn-close" onclick="cerrarModales()">&times;</button>
+            </div>
+            <form id="formProveedor" onsubmit="guardarProveedor(event)">
+                <input type="hidden" id="provId">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Razón Social de la Empresa *</label>
+                        <input type="text" id="provRazon" class="form-control" required placeholder="Ej: Mayorista Tecnológico del Ecuador S.A.">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Representante Legal *</label>
+                            <input type="text" id="provRepresentante" class="form-control" required placeholder="Ing. Carlos Albuja">
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono *</label>
+                            <input type="text" id="provTelefono" class="form-control" required placeholder="022478900">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección *</label>
+                        <input type="text" id="provDireccion" class="form-control" required placeholder="Av. Galo Plaza Lasso N60-12">
+                    </div>
+                    <div class="form-group">
+                        <label>Distrito de Quito (RN02) *</label>
+                        <select id="provDistrito" class="form-select" required>
+                            <!-- Dinámico -->
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="cerrarModales()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Proveedor</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL VENDEDOR -->
+    <div class="modal-backdrop" id="modalVendedor">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 id="modalVendedorTitle"><i class="fa-solid fa-user-tie"></i> Registrar Vendedor</h3>
+                <button class="btn-close" onclick="cerrarModales()">&times;</button>
+            </div>
+            <form id="formVendedor" onsubmit="guardarVendedor(event)">
+                <input type="hidden" id="vendId">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nombres *</label>
+                            <input type="text" id="vendNombres" class="form-control" required placeholder="Ej: Esteban Fernando">
+                        </div>
+                        <div class="form-group">
+                            <label>Apellidos *</label>
+                            <input type="text" id="vendApellidos" class="form-control" required placeholder="Ej: Gómez Játiva">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Sueldo Mensual ($ USD) *</label>
+                            <input type="number" id="vendSueldo" class="form-control" step="0.01" min="0" required placeholder="950.00">
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo de Vendedor *</label>
+                            <select id="vendTipo" class="form-select" required>
+                                <option value="Senior">Senior</option>
+                                <option value="Planta">Planta</option>
+                                <option value="Comisionista">Comisionista</option>
+                                <option value="Junior">Junior</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Fecha de Inicio *</label>
+                            <input type="date" id="vendFecha" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Distrito de Residencia (RN03) *</label>
+                            <select id="vendDistrito" class="form-select" required>
+                                <!-- Dinámico -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="cerrarModales()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Vendedor</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL NUEVA ORDEN DE COMPRA -->
+    <div class="modal-backdrop" id="modalOrdenCompra">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-truck"></i> Nueva Orden de Compra a Proveedor</h3>
+                <button class="btn-close" onclick="cerrarModales()">&times;</button>
+            </div>
+            <form id="formOrdenCompra" onsubmit="guardarOrdenCompra(event)">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Proveedor (RN08) *</label>
+                        <select id="ordenProveedorSelect" class="form-select" required>
+                            <!-- Dinámico -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Orden</label>
+                        <input type="date" id="ordenFecha" class="form-control" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" style="flex:2;">
+                            <label>Producto a Reabastecer (RN10) *</label>
+                            <select id="ordenProductoSelect" class="form-select" required>
+                                <!-- Dinámico -->
+                            </select>
+                        </div>
+                        <div class="form-group" style="flex:1;">
+                            <label>Cantidad (RN12) *</label>
+                            <input type="number" id="ordenCantidad" class="form-control" min="1" value="10" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="cerrarModales()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Emitir Orden de Compra</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL VISTA PREVIA IMPRESIÓN FACTURA / COMPROBANTE -->
+    <div class="modal-backdrop" id="modalFacturaPrint">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-print"></i> Comprobante Electrónico de Venta</h3>
+                <button class="btn-close" onclick="cerrarModales()">&times;</button>
+            </div>
+            <div class="modal-body invoice-print-body" id="invoicePrintContent">
+                <!-- Se llena dinámicamente con plantilla de factura SRI Ecuador -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="cerrarModales()">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="window.print()">
+                    <i class="fa-solid fa-print"></i> Imprimir Comprobante
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS DE LA APLICACIÓN -->
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

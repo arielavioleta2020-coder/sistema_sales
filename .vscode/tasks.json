@@ -1,0 +1,48 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "1. Iniciar Aplicación React (Vite)",
+            "type": "shell",
+            "command": "npm run dev",
+            "options": {
+                "cwd": "${workspaceFolder}/react_app"
+            },
+            "isBackground": true,
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "2. Iniciar Backend Node.js (MySQL API)",
+            "type": "shell",
+            "command": "npm start",
+            "options": {
+                "cwd": "${workspaceFolder}/backend_node"
+            },
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "3. Iniciar Backend Django (Python)",
+            "type": "shell",
+            "command": "python manage.py runserver",
+            "options": {
+                "cwd": "${workspaceFolder}/backend"
+            },
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "4. Abrir Aplicación Directa en Navegador",
+            "type": "process",
+            "command": "explorer.exe",
+            "args": [
+                "${workspaceFolder}\\frontend\\index.html"
+            ],
+            "problemMatcher": []
+        }
+    ]
+}

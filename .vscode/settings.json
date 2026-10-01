@@ -1,0 +1,22 @@
+{
+    "python.terminal.activateEnvironment": true,
+    "files.exclude": {
+        "**/*.pdf": true,
+        "CASO PRÁCTICO TITULACION.pdf": true,
+        "**/__pycache__": true,
+        "**/.pytest_cache": true,
+        "**/.git": true
+    },
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "sqltools.connections": [
+        {
+            "name": "MySQL Workbench - sistema_sales",
+            "driver": "MySQL",
+            "server": "127.0.0.1",
+            "port": 3306,
+            "database": "sistema_sales",
+            "username": "root"
+        }
+    ]
+}
